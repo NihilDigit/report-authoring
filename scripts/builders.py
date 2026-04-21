@@ -56,13 +56,19 @@ def image_emu(w_px: int, h_px: int, *,
 def build_body_paragraph(text: str, *,
                           size: int = 21,           # 五号 = 10.5pt × 2
                           first_line_chars: int = 200,
-                          line: int = 360) -> str:
-    """正文段：默认宋体五号 1.5 行距 + 首行缩进两个字符"""
+                          line: int = 360,
+                          jc: str = "left") -> str:
+    """正文段：默认宋体五号 1.5 行距 + 首行缩进两个字符 + 左对齐
+
+    中文学术报告正文惯例是左对齐（`jc="left"`），行末自然收尾不强制拉齐，阅读体验更顺。
+    若模板实际要求两端对齐可传 jc="both"。
+    """
     r_pr = f'<w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="{size}"/></w:rPr>'
     return (
         '<w:p><w:pPr>'
         f'<w:spacing w:line="{line}" w:lineRule="auto"/>'
         f'<w:ind w:firstLineChars="{first_line_chars}"/>'
+        f'<w:jc w:val="{jc}"/>'
         f'{r_pr}</w:pPr>'
         f'<w:r>{r_pr}'
         f'<w:t xml:space="preserve">{xml_escape(text)}</w:t>'
