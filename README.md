@@ -30,14 +30,26 @@
 
 ## 安装
 
-把整个目录放到你 Agent 的 skills 目录。对于 **Claude Code**：
+本仓库符合 [Agent Skills 开放标准](https://agentskills.io)（Anthropic 2025 年 10 月发布，12 月开放，
+已有 40+ 平台采纳：Claude Code / Cursor / OpenAI Codex / GitHub Copilot / Gemini CLI / JetBrains Junie / OpenHands 等）。
+
+**最简单**：直接跟你的 Agent 说：
+> 安装 report-authoring skill  
+> （或：帮我把 https://github.com/NihilDigit/report-authoring 装成一个 skill）
+
+Agent 应能理解并把仓库 clone 到正确位置。
+
+**手动安装**（各平台 skill 目录）：
 ```bash
+# Claude Code
 git clone https://github.com/NihilDigit/report-authoring.git ~/.claude/skills/report-authoring
+
+# Cursor / VS Code Copilot / Gemini CLI 等多数平台
+git clone https://github.com/NihilDigit/report-authoring.git <平台的 skills 目录>
 ```
 
-Agent 启动时会自动发现（`~/.claude/skills/*/SKILL.md`）并注册。
-
-其他 Agent 平台：目前仅适配过 Claude Code 的 skill 机制，其他平台的适配是 **后续路线图** 的一部分。
+`SKILL.md` 的 YAML frontmatter 遵守标准字段（`name` / `description` / `allowed-tools`），
+各平台都能识别。Claude Code 专有扩展字段（`context: fork` 之类）本 skill 未使用，确保最大兼容性。
 
 ## 依赖
 
@@ -90,10 +102,17 @@ Agent 自动按 SKILL.md 里的**五阶段流程**推进：
 - [ ] 表格（`<w:tbl>`）builder
 - [ ] 自动编号的公式（非代码类 caption）
 
+## 贡献
+
+**欢迎踩坑 → 提 Issue / PR**。本 skill 设计成渐进式积累：
+
+- 发现新的工具链坑 / OOXML schema 坑 → 往 `docs/pitfalls.md` 里加条目
+- 新类型报告的结构约定 → 在 `report-formats/` 加 `<kind>.md`
+- 新的排版技巧 / 字体组合 → 更新 `docs/typography.md` 或 `docs/caption-spec.md`
+- 新的自动化工具（其他窗口管理器的截图、新的代码渲染器等）→ `scripts/` 加小工具 + 更新 SKILL.md 导航
+
+Issue 模板建议说清楚：触发条件、期望行为、实际表现、最好附上最小复现。PR 欢迎所有合理改进。
+
 ## License
 
 MIT（见 LICENSE）
-
-## 致谢
-
-起源于一次大数据实验报告的手工劳动，逐步沉淀。感谢那些走投无路然后写了 regex 的夜晚。
