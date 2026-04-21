@@ -1,0 +1,43 @@
+<!-- 单张居中图片 + 编号 caption 的完整段落骨架 -->
+<!-- 用 builders.build_screenshot_block(...) 生成，或手工填模板替换 {CX} {CY} {RID} {DOCPR_ID} {NAME} {CHAPTER} {INDEX} {DESC} -->
+
+<w:p>
+  <w:pPr>
+    <w:spacing w:before="120" w:after="60" w:line="360" w:lineRule="auto"/>
+    <w:jc w:val="center"/>
+  </w:pPr>
+  <w:r>
+    <w:drawing>
+      <wp:inline distT="0" distB="0" distL="0" distR="0">
+        <wp:extent cx="{CX}" cy="{CY}"/>
+        <wp:docPr id="{DOCPR_ID}" name="{NAME}"/>
+        <wp:cNvGraphicFramePr>
+          <a:graphicFrameLocks xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" noChangeAspect="1"/>
+        </wp:cNvGraphicFramePr>
+        <a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main">
+          <a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">
+            <pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture">
+              <pic:nvPicPr><pic:cNvPr id="{DOCPR_ID}" name="{NAME}"/><pic:cNvPicPr/></pic:nvPicPr>
+              <pic:blipFill><a:blip r:embed="{RID}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>
+              <pic:spPr>
+                <a:xfrm><a:off x="0" y="0"/><a:ext cx="{CX}" cy="{CY}"/></a:xfrm>
+                <a:prstGeom prst="rect"><a:avLst/></a:prstGeom>
+              </pic:spPr>
+            </pic:pic>
+          </a:graphicData>
+        </a:graphic>
+      </wp:inline>
+    </w:drawing>
+  </w:r>
+</w:p>
+<w:p>
+  <w:pPr>
+    <w:spacing w:before="60" w:after="180" w:line="276" w:lineRule="auto"/>
+    <w:jc w:val="center"/>
+    <w:rPr><w:rFonts w:hint="eastAsia"/><w:b/><w:bCs/><w:sz w:val="18"/></w:rPr>
+  </w:pPr>
+  <w:r>
+    <w:rPr><w:rFonts w:hint="eastAsia"/><w:b/><w:bCs/><w:sz w:val="18"/></w:rPr>
+    <w:t xml:space="preserve">图 {CHAPTER}-{INDEX}  {DESC}</w:t>
+  </w:r>
+</w:p>

@@ -1,0 +1,25 @@
+<!-- 文字代码段（一行一段），带左侧蓝色竖线 + 浅灰背景 -->
+<!-- 每行调一次、按顺序拼接形成代码块 -->
+<!-- 替换 {LINE} 为单行代码；多行请复制多次 -->
+
+<w:p>
+  <w:pPr>
+    <w:pBdr>
+      <w:left w:val="single" w:sz="18" w:space="8" w:color="5A9FD4"/>
+    </w:pBdr>
+    <w:shd w:val="clear" w:color="auto" w:fill="F5F5F5"/>
+    <w:spacing w:line="300" w:lineRule="auto"/>
+    <w:ind w:left="420"/>
+    <w:rPr>
+      <w:rFonts w:hint="eastAsia" w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Consolas"/>
+      <w:sz w:val="20"/>
+    </w:rPr>
+  </w:pPr>
+  <w:r>
+    <w:rPr>
+      <w:rFonts w:hint="eastAsia" w:ascii="Consolas" w:hAnsi="Consolas" w:cs="Consolas"/>
+      <w:sz w:val="20"/>
+    </w:rPr>
+    <w:t xml:space="preserve">{LINE}</w:t>
+  </w:r>
+</w:p>

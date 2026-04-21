@@ -1,0 +1,14 @@
+<!-- 章节标题段：加粗，level 控制字号 -->
+<!-- level 1: sz=24 小三；level 2: sz=22 四号；level 3: sz=21 小四 -->
+<!-- 替换 {SIZE} {BEFORE} {AFTER} {TEXT} -->
+
+<w:p>
+  <w:pPr>
+    <w:spacing w:before="{BEFORE}" w:after="{AFTER}" w:line="360" w:lineRule="auto"/>
+    <w:rPr><w:rFonts w:hint="eastAsia"/><w:b/><w:bCs/><w:sz w:val="{SIZE}"/></w:rPr>
+  </w:pPr>
+  <w:r>
+    <w:rPr><w:rFonts w:hint="eastAsia"/><w:b/><w:bCs/><w:sz w:val="{SIZE}"/></w:rPr>
+    <w:t xml:space="preserve">{TEXT}</w:t>
+  </w:r>
+</w:p>

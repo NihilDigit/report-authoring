@@ -1,0 +1,99 @@
+# report-authoring
+
+一个 **agent skill**，用于撰写中文学术/工程类 docx 报告——实验报告、课程设计、项目总结、毕业设计等。
+
+**核心工作流**：需求对齐 → 理解模板 → md 成稿 → 资产处理 → 拼接 → QA，每阶段都 HITL 回到用户。
+
+## 为什么需要这个 skill
+
+中文高校/公司的 docx 报告有很多**重复的体力活**：
+
+- 正文章节按老师给的模板表格 cell 填写
+- 代码片段要有语法高亮、格式规整
+- 程序运行截图要裁切、居中、有编号 caption
+- 字号字体行距符合「宋体五号 1.5 倍行距」之类的惯例
+
+这些活**机械但容易出错**：代码缩进被 Word 吃掉、caption 编号跳号、图片格式被拉伸、OOXML 样式写错
+导致文件打不开…… 本 skill 把这套流程沉淀成可复现的工具 + 文档，让 Agent 跟用户协作高效产出。
+
+## 能力一览
+
+| 阶段 | 能力 |
+|---|---|
+| 理解模板 | python-docx 摘要 + OOXML XML 解析 |
+| md 成稿 | 与用户协作的 markdown 中转稿模式，占位符约定 |
+| 代码展示 | silicon 语法高亮图（推荐）/ 文字代码块（左竖线 + 灰底） |
+| 终端截图 | Niri + Alacritty 无鼠标全自动 / 其他平台指导手动 |
+| 图片处理 | ImageMagick 裁空白、按原始分辨率居中、禁止并排、编号 caption |
+| 排版规范 | 中文字号字体行距、caption 样式、章节内编号规则 |
+| 打包 QA | docx → PDF 预览 → 清单式核查 |
+
+## 安装
+
+把整个目录放到你 Agent 的 skills 目录。对于 **Claude Code**：
+```bash
+git clone https://github.com/NihilDigit/report-authoring.git ~/.claude/skills/report-authoring
+```
+
+Agent 启动时会自动发现（`~/.claude/skills/*/SKILL.md`）并注册。
+
+其他 Agent 平台：目前仅适配过 Claude Code 的 skill 机制，其他平台的适配是 **后续路线图** 的一部分。
+
+## 依赖
+
+运行时需要：
+
+| 工具 | 必需度 | 用途 |
+|---|---|---|
+| Python 3.10+ | ★ 必需 | builders / scripts |
+| `python-docx` | ★ 必需 | 模板摘要 |
+| `silicon`     | ★ 必需 | 代码图片渲染 |
+| `ImageMagick` | ★ 必需 | 图片裁切 |
+| `LibreOffice` / `soffice` | 必需 | docx → PDF 预览 |
+| `poppler`（`pdftoppm`） | 必需 | PDF → JPG 预览 |
+| Niri 25+ / Hyprland / Sway | 可选 | Wayland 合成器下终端截图全自动 |
+| Alacritty | 可选 | 搭配上面自动截图 |
+| `jq` | 可选 | 配合 Niri JSON 输出 |
+
+Arch / CachyOS 一键装：
+```bash
+sudo pacman -S python-docx silicon imagemagick libreoffice-fresh poppler alacritty jq
+# Niri 按自己窗口管理器选择
+```
+
+## 快速开始
+
+用户给 Agent：「帮我写实验报告，模板是 `~/实验一模板.docx`，项目在 `~/code/exp1`。」
+
+Agent 自动按 SKILL.md 里的**五阶段流程**推进：
+1. 阶段 0：问清楚报告类型、交付目标、排版偏好
+2. 阶段 1：`inspect_template.py` 摘要模板
+3. 阶段 2：与用户一起在 `report.md` 写正文，边写边 HITL
+4. 阶段 3：`capture.sh` / `silicon_cli.sh` / `trim_png.sh` 批量生成图
+5. 阶段 4：`builders.py` 拼接进 docx
+6. 阶段 5：`preview_docx.sh` QA → 交付
+
+## 扩展机制
+
+本 skill 设计成**渐进式积累**，做完一份新报告后发现坑/技巧就往对应文件里加：
+
+- 新工具链坑 → `docs/pitfalls.md`
+- 新样式约定 → `docs/typography.md` / `docs/caption-spec.md`
+- 新类型报告 → `report-formats/<kind>.md`
+- 新自动化工具 → `scripts/`
+
+## 路线图
+
+- [ ] 其他 Agent 平台适配（Gemini、Codex、自建 Agent）
+- [ ] Windows 上手动截图的 helper（目前是 Agent 指导）
+- [ ] `report-formats/` 扩充：课程设计、毕设、技术方案
+- [ ] 表格（`<w:tbl>`）builder
+- [ ] 自动编号的公式（非代码类 caption）
+
+## License
+
+MIT（见 LICENSE）
+
+## 致谢
+
+起源于一次大数据实验报告的手工劳动，逐步沉淀。感谢那些走投无路然后写了 regex 的夜晚。
