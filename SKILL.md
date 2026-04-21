@@ -8,7 +8,7 @@ description: >
   自动化、图片裁切居中、caption 章节编号、中文排版约定、OOXML 常见坑。
   Triggers: "写实验报告"、"课程设计报告"、"报告排版"、"把截图放进报告"、"给代码加高亮图"、
   "给图加编号 caption"、"docx 模板填充"、"实验报告格式"。
-user-invocable: false
+user-invocable: true
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
